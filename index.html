@@ -1,128 +1,791 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leads Tracker Pro</title>
-    <link rel="stylesheet" href="index.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <div class="app-container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-link"></i>
-                    <h1>Leads Tracker Pro</h1>
-                </div>
-                <div class="stats">
-                    <span id="leads-count">0 leads</span>
-                </div>
-            </div>
-        </header>
+/* Reset and Base Styles */
+:root {
+    /* Light mode colors */
+    --bg-primary: #fff;
+    --bg-secondary: #fafafa;
+    --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --text-primary: #333;
+    --text-secondary: #666;
+    --text-muted: #999;
+    --border-color: #f0f0f0;
+    --border-hover: #e0e0e0;
+    --shadow-light: rgba(0, 0, 0, 0.08);
+    --shadow-medium: rgba(0, 0, 0, 0.1);
+    --accent-color: #5f9341;
+    --accent-light: #e8f5e8;
+    --accent-hover: rgba(95, 147, 65, 0.1);
+    --danger-color: #ff6b6b;
+    --warning-color: #ffa726;
+    --success-color: #5f9341;
+}
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Input Section -->
-            <div class="input-section">
-                <div class="input-group">
-                    <div class="input-wrapper">
-                        <i class="fas fa-link input-icon"></i>
-                        <input type="url" id="input-el" placeholder="Enter URL (e.g., https://example.com)" autocomplete="url">
-                        <button id="clear-input" class="clear-btn" title="Clear input">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="input-wrapper">
-                        <i class="fas fa-tag input-icon"></i>
-                        <input type="text" id="title-el" placeholder="Add a title (optional)" autocomplete="off">
-                    </div>
-                </div>
-                
-                <div class="action-buttons">
-                    <button id="input-btn" class="btn btn-primary">
-                        <i class="fas fa-plus"></i>
-                        Save Lead
-                    </button>
-                    <button id="current-tab-btn" class="btn btn-secondary">
-                        <i class="fas fa-tab"></i>
-                        Save Current Tab
-                    </button>
-                </div>
-            </div>
+[data-theme="dark"] {
+    /* Dark mode colors */
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --bg-gradient: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+    --text-primary: #e2e8f0;
+    --text-secondary: #a0aec0;
+    --text-muted: #718096;
+    --border-color: #4a5568;
+    --border-hover: #718096;
+    --shadow-light: rgba(0, 0, 0, 0.3);
+    --shadow-medium: rgba(0, 0, 0, 0.4);
+    --accent-color: #68d391;
+    --accent-light: #2d3748;
+    --accent-hover: rgba(104, 211, 145, 0.1);
+    --danger-color: #fc8181;
+    --warning-color: #f6ad55;
+    --success-color: #68d391;
+}
 
-            <!-- Search and Filter -->
-            <div class="search-section">
-                <div class="search-wrapper">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="search-el" placeholder="Search leads...">
-                </div>
-                <div class="filter-buttons">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="recent">Recent</button>
-                    <button class="filter-btn" data-filter="favorites">Favorites</button>
-                </div>
-            </div>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-            <!-- Leads List -->
-            <div class="leads-section">
-                <div class="section-header">
-                    <h2>Your Leads</h2>
-                    <div class="bulk-actions">
-                        <button id="select-all" class="btn btn-ghost">
-                            <i class="fas fa-check-square"></i>
-                            Select All
-                        </button>
-                        <button id="delete-selected" class="btn btn-danger" style="display: none;">
-                            <i class="fas fa-trash"></i>
-                            Delete Selected
-                        </button>
-                        <button id="delete-all" class="btn btn-danger">
-                            <i class="fas fa-trash-alt"></i>
-                            Delete All
-                        </button>
-                    </div>
-                </div>
-                
-                <div id="empty-state" class="empty-state">
-                    <i class="fas fa-link-slash"></i>
-                    <h3>No leads yet</h3>
-                    <p>Start by adding your first lead above</p>
-                </div>
-                
-                <ul id="ul-el" class="leads-list"></ul>
-            </div>
-        </main>
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-gradient);
+    min-height: 100vh;
+    color: var(--text-primary);
+    line-height: 1.6;
+    transition: background 0.3s ease, color 0.3s ease;
+}
 
-        <!-- Toast Notifications -->
-        <div id="toast-container" class="toast-container"></div>
+.app-container {
+    max-width: 400px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: var(--bg-primary);
+    box-shadow: 0 0 30px var(--shadow-medium);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease;
+}
 
-        <!-- Confirmation Modal -->
-        <div id="modal-overlay" class="modal-overlay">
-            <div class="modal">
-                <div class="modal-header">
-                    <h3 id="modal-title">Confirm Action</h3>
-                    <button id="modal-close" class="modal-close">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p id="modal-message">Are you sure you want to proceed?</p>
-                </div>
-                <div class="modal-footer">
-                    <button id="modal-cancel" class="btn btn-ghost">Cancel</button>
-                    <button id="modal-confirm" class="btn btn-danger">Confirm</button>
-                </div>
-            </div>
-        </div>
-    </div>
+/* Header */
+.header {
+    background: linear-gradient(135deg, var(--accent-color) 0%, #4a7c2a 100%);
+    color: white;
+    padding: 20px 20px 25px;
+    box-shadow: 0 4px 20px var(--accent-hover);
+}
 
-    <script type="module" src="index.js"></script>
-</body>
-</html>
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.theme-toggle {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: white;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    font-size: 14px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.05);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo i {
+    font-size: 24px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px;
+    border-radius: 12px;
+}
+
+.logo h1 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.stats {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+}
+
+/* Main Content */
+.main-content {
+    padding: 25px 20px;
+    padding-bottom: 100px;
+}
+
+/* Input Section */
+.input-section {
+    background: var(--bg-primary);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 20px var(--shadow-light);
+    border: 1px solid var(--border-color);
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-wrapper {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.input-wrapper:last-child {
+    margin-bottom: 0;
+}
+
+.input-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent-color);
+    font-size: 16px;
+    z-index: 2;
+}
+
+input[type="url"], input[type="text"] {
+    width: 100%;
+    padding: 16px 16px 16px 48px;
+    border: 2px solid var(--accent-light);
+    border-radius: 12px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+input[type="url"]:focus, input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    background: var(--bg-primary);
+    box-shadow: 0 0 0 3px var(--accent-hover);
+}
+
+.clear-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    display: none;
+}
+
+.clear-btn:hover {
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+}
+
+.clear-btn.show {
+    display: block;
+}
+
+/* Buttons */
+.btn {
+    padding: 14px 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-family: inherit;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-color) 0%, #4a7c2a 100%);
+    color: white;
+    box-shadow: 0 4px 15px var(--accent-hover);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--accent-hover);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, var(--danger-color) 0%, #ee5a52 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 2px solid var(--border-hover);
+}
+
+.btn-ghost:hover {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.action-buttons .btn {
+    width: 100%;
+    max-width: 200px;
+    justify-content: center;
+}
+
+/* Search Section */
+.search-section {
+    background: var(--bg-primary);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 20px var(--shadow-light);
+    border: 1px solid var(--border-color);
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.search-wrapper {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 16px;
+}
+
+#search-el {
+    width: 100%;
+    padding: 14px 16px 14px 48px;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 16px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+#search-el:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    background: var(--bg-primary);
+    box-shadow: 0 0 0 3px var(--accent-hover);
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: 2px solid var(--border-hover);
+    background: transparent;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
+}
+
+.filter-btn.active {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: white;
+}
+
+.filter-btn:hover:not(.active) {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+/* Leads Section */
+.leads-section {
+    background: var(--bg-primary);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 20px var(--shadow-light);
+    border: 1px solid var(--border-color);
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.section-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.bulk-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.bulk-actions .btn {
+    padding: 8px 12px;
+    font-size: 12px;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+}
+
+.empty-state i {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: var(--border-hover);
+}
+
+.empty-state h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.empty-state p {
+    font-size: 14px;
+}
+
+/* Leads List */
+.leads-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lead-item {
+    background: #fafafa;
+    border: 2px solid #f0f0f0;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    padding: 16px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.lead-item:hover {
+    border-color: #5f9341;
+    box-shadow: 0 4px 15px rgba(95, 147, 65, 0.1);
+    transform: translateY(-1px);
+}
+
+.lead-item.selected {
+    border-color: #5f9341;
+    background: #f8fdf8;
+}
+
+.lead-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.lead-checkbox {
+    margin-right: 12px;
+    margin-top: 2px;
+}
+
+.lead-content {
+    flex: 1;
+}
+
+.lead-title {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.lead-url {
+    color: #5f9341;
+    text-decoration: none;
+    font-size: 13px;
+    word-break: break-all;
+    line-height: 1.4;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.lead-url:hover {
+    text-decoration: underline;
+}
+
+.lead-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: #999;
+    margin-top: 8px;
+}
+
+.lead-date {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.lead-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    padding: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #999;
+    transition: all 0.2s ease;
+    font-size: 12px;
+}
+
+.action-btn:hover {
+    background: #f0f0f0;
+    color: #666;
+}
+
+.action-btn.favorite.active {
+    color: #ffd700;
+}
+
+.action-btn.delete:hover {
+    color: #ff6b6b;
+    background: #fff5f5;
+}
+
+/* Toast Notifications */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    max-width: 300px;
+}
+
+.toast {
+    background: #333;
+    color: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transform: translateX(100%);
+    animation: slideIn 0.3s ease forwards;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toast.success {
+    background: #5f9341;
+}
+
+.toast.error {
+    background: #ff6b6b;
+}
+
+.toast.warning {
+    background: #ffa726;
+}
+
+@keyframes slideIn {
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOut {
+    to {
+        transform: translateX(100%);
+    }
+}
+
+.toast.removing {
+    animation: slideOut 0.3s ease forwards;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal {
+    background: white;
+    border-radius: 16px;
+    max-width: 320px;
+    width: 90%;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.show .modal {
+    transform: scale(1);
+}
+
+.modal-header {
+    padding: 20px 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #999;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+    background: #f0f0f0;
+    color: #666;
+}
+
+.modal-body {
+    padding: 16px 20px;
+}
+
+.modal-body p {
+    color: #666;
+    line-height: 1.5;
+}
+
+.modal-footer {
+    padding: 0 20px 20px;
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.modal-footer .btn {
+    padding: 10px 16px;
+    font-size: 13px;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .app-container {
+        max-width: 100%;
+        box-shadow: none;
+    }
+    
+    .main-content {
+        padding: 20px 16px;
+    }
+    
+    .input-section, .search-section, .leads-section {
+        padding: 20px 16px;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .bulk-actions {
+        justify-content: center;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .filter-buttons {
+        justify-content: center;
+    }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.lead-item {
+    animation: fadeInUp 0.3s ease;
+}
+
+/* Loading States */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.btn.loading {
+    position: relative;
+    color: transparent;
+}
+
+.btn.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    color: white;
+}
+
+@keyframes spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus styles for better accessibility */
+.btn:focus,
+input:focus,
+.action-btn:focus {
+    outline: 2px solid #5f9341;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .lead-item {
+        border-width: 3px;
+    }
+    
+    .btn {
+        border: 2px solid currentColor;
+    }
+}

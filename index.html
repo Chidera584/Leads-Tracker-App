@@ -3,17 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leads Tracker</title>
+    <title>Leads Tracker Pro</title>
     <link rel="stylesheet" href="index.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="manifest" href="site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="app-container">
@@ -22,10 +19,10 @@
             <div class="header-content">
                 <div class="logo">
                     <i class="fas fa-link"></i>
-                    <h1>Leads Tracker</h1>
+                    <h1>Leads Tracker Pro</h1>
                 </div>
                 <div class="header-actions">
-                    <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+                    <button id="theme-toggle" class="theme-toggle" title="Toggle theme">
                         <i class="fas fa-moon"></i>
                     </button>
                     <div class="stats">
@@ -38,30 +35,31 @@
         <!-- Main Content -->
         <main class="main-content">
             <!-- Input Section -->
-            <section class="input-section">
+            <div class="input-section">
                 <div class="input-group">
                     <div class="input-wrapper">
                         <i class="fas fa-link input-icon"></i>
-                        <input type="url" id="input-el" placeholder="Enter URL (e.g., https://example.com)">
-                        <button class="clear-btn" id="clear-input" title="Clear input">
+                        <input type="url" id="input-el" placeholder="Enter URL (e.g., https://example.com)" autocomplete="url">
+                        <button id="clear-input" class="clear-btn" title="Clear input">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
                     <div class="input-wrapper">
                         <i class="fas fa-tag input-icon"></i>
-                        <input type="text" id="title-el" placeholder="Title (optional)">
+                        <input type="text" id="title-el" placeholder="Add a title (optional)" autocomplete="off">
                     </div>
                 </div>
+                
                 <div class="action-buttons">
-                    <button class="btn btn-primary" id="input-btn">
+                    <button id="input-btn" class="btn btn-primary">
                         <i class="fas fa-plus"></i>
                         Save Lead
                     </button>
                 </div>
-            </section>
+            </div>
 
-            <!-- Search Section -->
-            <section class="search-section">
+            <!-- Search and Filter -->
+            <div class="search-section">
                 <div class="search-wrapper">
                     <i class="fas fa-search search-icon"></i>
                     <input type="text" id="search-el" placeholder="Search leads...">
@@ -71,63 +69,61 @@
                     <button class="filter-btn" data-filter="recent">Recent</button>
                     <button class="filter-btn" data-filter="favorites">Favorites</button>
                 </div>
-            </section>
+            </div>
 
-            <!-- Leads Section -->
-            <section class="leads-section">
+            <!-- Leads List -->
+            <div class="leads-section">
                 <div class="section-header">
                     <h2>Your Leads</h2>
                     <div class="bulk-actions">
-                        <button class="btn btn-ghost" id="select-all">
+                        <button id="select-all" class="btn btn-ghost">
                             <i class="fas fa-check-square"></i>
                             Select All
                         </button>
-                        <button class="btn btn-danger" id="delete-selected" style="display: none;">
+                        <button id="delete-selected" class="btn btn-danger" style="display: none;">
                             <i class="fas fa-trash"></i>
                             Delete Selected
                         </button>
-                        <button class="btn btn-danger" id="delete-all">
+                        <button id="delete-all" class="btn btn-danger">
                             <i class="fas fa-trash-alt"></i>
                             Delete All
                         </button>
                     </div>
                 </div>
-
-                <!-- Empty State -->
-                <div class="empty-state" id="empty-state">
-                    <i class="fas fa-link"></i>
+                
+                <div id="empty-state" class="empty-state">
+                    <i class="fas fa-link-slash"></i>
                     <h3>No leads yet</h3>
                     <p>Start by adding your first lead above</p>
                 </div>
-
-                <!-- Leads List -->
-                <ul class="leads-list" id="ul-el"></ul>
-            </section>
+                
+                <ul id="ul-el" class="leads-list"></ul>
+            </div>
         </main>
-    </div>
 
-    <!-- Modal -->
-    <div class="modal-overlay" id="modal-overlay">
-        <div class="modal">
-            <div class="modal-header">
-                <h3 id="modal-title">Confirm Action</h3>
-                <button class="modal-close" id="modal-close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p id="modal-message">Are you sure you want to proceed?</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-ghost" id="modal-cancel">Cancel</button>
-                <button class="btn btn-danger" id="modal-confirm">Confirm</button>
+        <!-- Toast Notifications -->
+        <div id="toast-container" class="toast-container"></div>
+
+        <!-- Confirmation Modal -->
+        <div id="modal-overlay" class="modal-overlay">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 id="modal-title">Confirm Action</h3>
+                    <button id="modal-close" class="modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="modal-message">Are you sure you want to proceed?</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="modal-cancel" class="btn btn-ghost">Cancel</button>
+                    <button id="modal-confirm" class="btn btn-danger">Confirm</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Toast Container -->
-    <div class="toast-container" id="toast-container"></div>
-
-    <script src="index.js"></script>
+    <script type="module" src="index.js"></script>
 </body>
 </html>

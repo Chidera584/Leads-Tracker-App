@@ -41,24 +41,28 @@ let favorites = JSON.parse(localStorage.getItem('leadsFavorites') || '[]')
 // Theme Management
 function initializeTheme() {
     const savedTheme = localStorage.getItem('theme') || 'light'
-    document.documentElement.setAttribute('data-theme', savedTheme)
-    updateThemeIcon(savedTheme)
+    setTheme(savedTheme)
+}
+
+function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('theme', theme)
+    
+    const icon = themeToggle.querySelector('i')
+    if (theme === 'dark') {
+        icon.className = 'fas fa-sun'
+        themeToggle.title = 'Switch to light theme'
+    } else {
+        icon.className = 'fas fa-moon'
+        themeToggle.title = 'Switch to dark theme'
+    }
 }
 
 function toggleTheme() {
     const currentTheme = document.documentElement.getAttribute('data-theme')
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
-    
-    document.documentElement.setAttribute('data-theme', newTheme)
-    localStorage.setItem('theme', newTheme)
-    updateThemeIcon(newTheme)
-    
-    showToast(`Switched to ${newTheme} mode`, 'success')
-}
-
-function updateThemeIcon(theme) {
-    const icon = themeToggle.querySelector('i')
-    icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'
+    setTheme(newTheme)
+    showToast(`Switched to ${newTheme} theme`, 'success')
 }
 
 // Utility Functions
@@ -303,6 +307,8 @@ function addLeadEventListeners() {
 }
 
 // Event Listeners
+themeToggle.addEventListener('click', toggleTheme)
+
 inputEl.addEventListener('input', () => {
     clearInputBtn.classList.toggle('show', inputEl.value.length > 0)
 })
@@ -362,9 +368,6 @@ titleEl.addEventListener('keypress', (e) => {
         inputBtn.click()
     }
 })
-
-// Theme toggle listener
-themeToggle.addEventListener('click', toggleTheme)
 
 searchEl.addEventListener('input', applyFilter)
 

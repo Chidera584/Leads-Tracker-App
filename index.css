@@ -1,3 +1,46 @@
+/* CSS Variables for Themes */
+:root {
+    --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --app-bg: #fff;
+    --text-primary: #333;
+    --text-secondary: #666;
+    --text-muted: #999;
+    --border-color: #f0f0f0;
+    --border-hover: #d0d0d0;
+    --input-bg: #fafafa;
+    --input-focus-bg: #fff;
+    --card-bg: #fff;
+    --card-shadow: rgba(0, 0, 0, 0.08);
+    --modal-overlay: rgba(0, 0, 0, 0.5);
+    --toast-bg: #333;
+    --empty-state-icon: #ddd;
+    --empty-state-text: #666;
+    --lead-item-bg: #fafafa;
+    --lead-item-hover-bg: #f8fdf8;
+    --header-gradient: linear-gradient(135deg, #5f9341 0%, #4a7c2a 100%);
+}
+
+[data-theme="dark"] {
+    --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    --app-bg: #1e1e1e;
+    --text-primary: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --text-muted: #888;
+    --border-color: #333;
+    --border-hover: #444;
+    --input-bg: #2a2a2a;
+    --input-focus-bg: #333;
+    --card-bg: #252525;
+    --card-shadow: rgba(0, 0, 0, 0.3);
+    --modal-overlay: rgba(0, 0, 0, 0.7);
+    --toast-bg: #444;
+    --empty-state-icon: #555;
+    --empty-state-text: #888;
+    --lead-item-bg: #2a2a2a;
+    --lead-item-hover-bg: #2d2d2d;
+    --header-gradient: linear-gradient(135deg, #4a7c2a 0%, #5f9341 100%);
+}
+
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -11,91 +54,23 @@ body {
     min-height: 100vh;
     color: var(--text-primary);
     line-height: 1.6;
-    transition: background 0.3s ease, color 0.3s ease;
-}
-
-/* CSS Variables for Light/Dark Mode */
-:root {
-    --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --bg-primary: #ffffff;
-    --bg-secondary: #fafafa;
-    --bg-tertiary: #f0f0f0;
-    --text-primary: #333333;
-    --text-secondary: #666666;
-    --text-muted: #999999;
-    --border-color: #e0e0e0;
-    --border-light: #f0f0f0;
-    --shadow-light: rgba(0, 0, 0, 0.08);
-    --shadow-medium: rgba(0, 0, 0, 0.1);
-    --accent-color: #5f9341;
-    --accent-light: #e8f5e8;
-    --danger-color: #ff6b6b;
-    --warning-color: #ffa726;
-    --success-color: #5f9341;
-}
-
-[data-theme="dark"] {
-    --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    --bg-primary: #1e1e1e;
-    --bg-secondary: #2a2a2a;
-    --bg-tertiary: #3a3a3a;
-    --text-primary: #ffffff;
-    --text-secondary: #cccccc;
-    --text-muted: #888888;
-    --border-color: #404040;
-    --border-light: #333333;
-    --shadow-light: rgba(0, 0, 0, 0.3);
-    --shadow-medium: rgba(0, 0, 0, 0.4);
-    --accent-color: #68d391;
-    --accent-light: rgba(104, 211, 145, 0.1);
-    --danger-color: #fc8181;
-    --warning-color: #f6ad55;
-    --success-color: #68d391;
+    transition: all 0.3s ease;
 }
 
 .app-container {
     max-width: 400px;
     margin: 0 auto;
     min-height: 100vh;
-    background: var(--bg-primary);
-    box-shadow: 0 0 30px var(--shadow-medium);
+    background: var(--app-bg);
+    box-shadow: 0 0 30px var(--card-shadow);
     position: relative;
     overflow: hidden;
-    transition: background 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Theme Toggle Button */
-.theme-toggle {
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    color: white;
-    padding: 8px;
-    border-radius: 50%;
-    cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 16px;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(10px);
-}
-
-.theme-toggle:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.1);
-}
-
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
 }
 
 /* Header */
 .header {
-    background: linear-gradient(135deg, #5f9341 0%, #4a7c2a 100%);
+    background: var(--header-gradient);
     color: white;
     padding: 20px 20px 25px;
     box-shadow: 0 4px 20px rgba(95, 147, 65, 0.3);
@@ -126,6 +101,29 @@ body {
     margin: 0;
 }
 
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.theme-toggle {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    font-size: 14px;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.05);
+}
+
 .stats {
     background: rgba(255, 255, 255, 0.15);
     padding: 6px 12px;
@@ -143,13 +141,13 @@ body {
 
 /* Input Section */
 .input-section {
-    background: var(--bg-primary);
+    background: var(--card-bg);
     border-radius: 16px;
     padding: 24px;
     margin-bottom: 25px;
-    box-shadow: 0 4px 20px var(--shadow-light);
-    border: 1px solid var(--border-light);
-    transition: background 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 4px 20px var(--card-shadow);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
 }
 
 .input-group {
@@ -178,20 +176,20 @@ body {
 input[type="url"], input[type="text"] {
     width: 100%;
     padding: 16px 16px 16px 48px;
-    border: 2px solid var(--accent-light);
+    border: 2px solid var(--border-color);
     border-radius: 12px;
     font-size: 16px;
     font-family: inherit;
     transition: all 0.3s ease;
-    background: var(--bg-secondary);
+    background: var(--input-bg);
     color: var(--text-primary);
 }
 
 input[type="url"]:focus, input[type="text"]:focus {
     outline: none;
-    border-color: var(--accent-color);
-    background: var(--bg-primary);
-    box-shadow: 0 0 0 3px var(--accent-light);
+    border-color: #5f9341;
+    background: var(--input-focus-bg);
+    box-shadow: 0 0 0 3px rgba(95, 147, 65, 0.1);
 }
 
 .clear-btn {
@@ -210,7 +208,7 @@ input[type="url"]:focus, input[type="text"]:focus {
 }
 
 .clear-btn:hover {
-    background: var(--bg-tertiary);
+    background: var(--border-color);
     color: var(--text-secondary);
 }
 
@@ -262,17 +260,6 @@ input[type="url"]:focus, input[type="text"]:focus {
     box-shadow: 0 6px 20px rgba(95, 147, 65, 0.4);
 }
 
-.btn-secondary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-}
-
-.btn-secondary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-}
-
 .btn-danger {
     background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
     color: white;
@@ -291,8 +278,8 @@ input[type="url"]:focus, input[type="text"]:focus {
 }
 
 .btn-ghost:hover {
-    background: var(--bg-secondary);
-    border-color: var(--border-color);
+    background: var(--input-bg);
+    border-color: var(--border-hover);
 }
 
 .action-buttons {
@@ -307,13 +294,13 @@ input[type="url"]:focus, input[type="text"]:focus {
 
 /* Search Section */
 .search-section {
-    background: var(--bg-primary);
+    background: var(--card-bg);
     border-radius: 16px;
     padding: 20px;
     margin-bottom: 25px;
-    box-shadow: 0 4px 20px var(--shadow-light);
-    border: 1px solid var(--border-light);
-    transition: background 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 4px 20px var(--card-shadow);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
 }
 
 .search-wrapper {
@@ -333,19 +320,19 @@ input[type="url"]:focus, input[type="text"]:focus {
 #search-el {
     width: 100%;
     padding: 14px 16px 14px 48px;
-    border: 2px solid var(--border-light);
+    border: 2px solid var(--border-color);
     border-radius: 12px;
     font-size: 16px;
-    background: var(--bg-secondary);
-    color: var(--text-primary);
+    background: var(--input-bg);
     transition: all 0.3s ease;
+    color: var(--text-primary);
 }
 
 #search-el:focus {
     outline: none;
-    border-color: var(--accent-color);
-    background: var(--bg-primary);
-    box-shadow: 0 0 0 3px var(--accent-light);
+    border-color: #5f9341;
+    background: var(--input-focus-bg);
+    box-shadow: 0 0 0 3px rgba(95, 147, 65, 0.1);
 }
 
 .filter-buttons {
@@ -366,24 +353,24 @@ input[type="url"]:focus, input[type="text"]:focus {
 }
 
 .filter-btn.active {
-    background: var(--accent-color);
-    border-color: var(--accent-color);
+    background: #5f9341;
+    border-color: #5f9341;
     color: white;
 }
 
 .filter-btn:hover:not(.active) {
-    background: var(--bg-secondary);
-    border-color: var(--border-color);
+    background: var(--input-bg);
+    border-color: var(--border-hover);
 }
 
 /* Leads Section */
 .leads-section {
-    background: var(--bg-primary);
+    background: var(--card-bg);
     border-radius: 16px;
     padding: 24px;
-    box-shadow: 0 4px 20px var(--shadow-light);
-    border: 1px solid var(--border-light);
-    transition: background 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 4px 20px var(--card-shadow);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
 }
 
 .section-header {
@@ -422,13 +409,13 @@ input[type="url"]:focus, input[type="text"]:focus {
 .empty-state i {
     font-size: 48px;
     margin-bottom: 16px;
-    color: var(--border-color);
+    color: var(--empty-state-icon);
 }
 
 .empty-state h3 {
     font-size: 18px;
     margin-bottom: 8px;
-    color: var(--text-secondary);
+    color: var(--empty-state-text);
 }
 
 .empty-state p {
@@ -443,8 +430,8 @@ input[type="url"]:focus, input[type="text"]:focus {
 }
 
 .lead-item {
-    background: var(--bg-secondary);
-    border: 2px solid var(--border-light);
+    background: var(--lead-item-bg);
+    border: 2px solid var(--border-color);
     border-radius: 12px;
     margin-bottom: 12px;
     padding: 16px;
@@ -454,14 +441,14 @@ input[type="url"]:focus, input[type="text"]:focus {
 }
 
 .lead-item:hover {
-    border-color: var(--accent-color);
-    box-shadow: 0 4px 15px var(--accent-light);
+    border-color: #5f9341;
+    box-shadow: 0 4px 15px rgba(95, 147, 65, 0.1);
     transform: translateY(-1px);
 }
 
 .lead-item.selected {
-    border-color: var(--accent-color);
-    background: var(--accent-light);
+    border-color: #5f9341;
+    background: var(--lead-item-hover-bg);
 }
 
 .lead-header {
@@ -489,7 +476,7 @@ input[type="url"]:focus, input[type="text"]:focus {
 }
 
 .lead-url {
-    color: var(--accent-color);
+    color: #5f9341;
     text-decoration: none;
     font-size: 13px;
     word-break: break-all;
@@ -534,7 +521,7 @@ input[type="url"]:focus, input[type="text"]:focus {
 }
 
 .action-btn:hover {
-    background: var(--bg-tertiary);
+    background: var(--border-color);
     color: var(--text-secondary);
 }
 
@@ -543,7 +530,11 @@ input[type="url"]:focus, input[type="text"]:focus {
 }
 
 .action-btn.delete:hover {
-    color: var(--danger-color);
+    color: #ff6b6b;
+    background: #fff5f5;
+}
+
+[data-theme="dark"] .action-btn.delete:hover {
     background: rgba(255, 107, 107, 0.1);
 }
 
@@ -557,7 +548,7 @@ input[type="url"]:focus, input[type="text"]:focus {
 }
 
 .toast {
-    background: var(--text-primary);
+    background: var(--toast-bg);
     color: white;
     padding: 12px 16px;
     border-radius: 8px;
@@ -571,15 +562,15 @@ input[type="url"]:focus, input[type="text"]:focus {
 }
 
 .toast.success {
-    background: var(--success-color);
+    background: #5f9341;
 }
 
 .toast.error {
-    background: var(--danger-color);
+    background: #ff6b6b;
 }
 
 .toast.warning {
-    background: var(--warning-color);
+    background: #ffa726;
 }
 
 @keyframes slideIn {
@@ -605,12 +596,13 @@ input[type="url"]:focus, input[type="text"]:focus {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--modal-overlay);
     display: none;
     align-items: center;
     justify-content: center;
     z-index: 1000;
     backdrop-filter: blur(4px);
+    transition: all 0.3s ease;
 }
 
 .modal-overlay.show {
@@ -618,14 +610,13 @@ input[type="url"]:focus, input[type="text"]:focus {
 }
 
 .modal {
-    background: white;
+    background: var(--card-bg);
     border-radius: 16px;
     max-width: 320px;
     width: 90%;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     transform: scale(0.9);
     transition: transform 0.3s ease;
-    background: var(--bg-primary);
 }
 
 .modal-overlay.show .modal {
@@ -657,7 +648,7 @@ input[type="url"]:focus, input[type="text"]:focus {
 }
 
 .modal-close:hover {
-    background: var(--bg-tertiary);
+    background: var(--border-color);
     color: var(--text-secondary);
 }
 
@@ -712,6 +703,12 @@ input[type="url"]:focus, input[type="text"]:focus {
     
     .filter-buttons {
         justify-content: center;
+    }
+
+    .header-actions {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
     }
 }
 
@@ -775,7 +772,8 @@ input[type="url"]:focus, input[type="text"]:focus {
 /* Focus styles for better accessibility */
 .btn:focus,
 input:focus,
-.action-btn:focus {
+.action-btn:focus,
+.theme-toggle:focus {
     outline: 2px solid #5f9341;
     outline-offset: 2px;
 }

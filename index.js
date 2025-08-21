@@ -14,7 +14,6 @@ const referenceInDB = ref(database, "leads")
 const inputEl = document.getElementById("input-el")
 const titleEl = document.getElementById("title-el")
 const inputBtn = document.getElementById("input-btn")
-const currentTabBtn = document.getElementById("current-tab-btn")
 const ulEl = document.getElementById("ul-el")
 const deleteAllBtn = document.getElementById("delete-all")
 const searchEl = document.getElementById("search-el")
@@ -30,6 +29,7 @@ const modalMessage = document.getElementById("modal-message")
 const modalConfirm = document.getElementById("modal-confirm")
 const modalCancel = document.getElementById("modal-cancel")
 const modalClose = document.getElementById("modal-close")
+const themeToggle = document.getElementById("theme-toggle")
 
 // State Management
 let allLeads = []
@@ -37,6 +37,29 @@ let filteredLeads = []
 let selectedLeads = new Set()
 let currentFilter = 'all'
 let favorites = JSON.parse(localStorage.getItem('leadsFavorites') || '[]')
+
+// Theme Management
+function initializeTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'light'
+    document.documentElement.setAttribute('data-theme', savedTheme)
+    updateThemeIcon(savedTheme)
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
+    
+    document.documentElement.setAttribute('data-theme', newTheme)
+    localStorage.setItem('theme', newTheme)
+    updateThemeIcon(newTheme)
+    
+    showToast(`Switched to ${newTheme} mode`, 'success')
+}
+
+function updateThemeIcon(theme) {
+    const icon = themeToggle.querySelector('i')
+    icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'
+}
 
 // Utility Functions
 function generateId() {
@@ -340,24 +363,8 @@ titleEl.addEventListener('keypress', (e) => {
     }
 })
 
-currentTabBtn.addEventListener("click", () => {
-    // For Chrome extension functionality
-    if (typeof chrome !== 'undefined' && chrome.tabs) {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            const currentTab = tabs[0]
-            inputEl.value = currentTab.url
-            titleEl.value = currentTab.title
-            clearInputBtn.classList.add('show')
-            showToast('Current tab loaded!')
-        })
-    } else {
-        // Fallback for web version
-        inputEl.value = window.location.href
-        titleEl.value = document.title
-        clearInputBtn.classList.add('show')
-        showToast('Current page loaded!')
-    }
-})
+// Theme toggle listener
+themeToggle.addEventListener('click', toggleTheme)
 
 searchEl.addEventListener('input', applyFilter)
 

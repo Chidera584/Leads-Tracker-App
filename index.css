@@ -46,7 +46,11 @@ body {
     --border-light: #333333;
     --shadow-light: rgba(0, 0, 0, 0.3);
     --shadow-medium: rgba(0, 0, 0, 0.4);
-    --accent-light: rgba(95, 147, 65, 0.1);
+    --accent-color: #68d391;
+    --accent-light: rgba(104, 211, 145, 0.1);
+    --danger-color: #fc8181;
+    --warning-color: #f6ad55;
+    --success-color: #68d391;
 }
 
 .app-container {

@@ -457,6 +457,9 @@ onValue(referenceInDB, (snapshot) => {
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize theme
+    initializeTheme()
+    
     // Focus on input field
     inputEl.focus()
     

@@ -1,14 +1,31 @@
 {
-  "name": "Scrim-s01ua9r",
-  "description": "https://scrimba.com/learn-javascript-c0v/~04f",
+  "name": "leads-tracker-android",
+  "version": "1.0.0",
+  "description": "Professional Leads Tracker Mobile App for Android",
+  "main": "index.html",
   "scripts": {
-    "start": "vite",
-    "dev": "vite",
+    "start": "vite --host",
+    "dev": "vite --host",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview --host",
+    "android": "npm run build && npx cap sync android && npx cap open android"
   },
   "dependencies": {
-    "vite": "latest"
+    "vite": "latest",
+    "@capacitor/core": "^5.5.1",
+    "@capacitor/android": "^5.5.1",
+    "@capacitor/app": "^5.0.6",
+    "@capacitor/haptics": "^5.0.6",
+    "@capacitor/status-bar": "^5.0.6",
+    "@capacitor/splash-screen": "^5.0.6",
+    "@capacitor/network": "^5.0.6",
+    "@capacitor/share": "^5.0.6",
+    "@capacitor/clipboard": "^5.0.6"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@capacitor/cli": "^5.5.1"
+  },
+  "keywords": ["leads", "tracker", "mobile", "android", "pwa"],
+  "author": "Your Name",
+  "license": "MIT"
 }

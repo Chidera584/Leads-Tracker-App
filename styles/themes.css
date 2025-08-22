@@ -1,0 +1,91 @@
+/* Light Theme (Default) */
+:root {
+    --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --app-bg: #ffffff;
+    --card-bg: #ffffff;
+    --header-bg: #5f9341;
+    --header-gradient: linear-gradient(135deg, #5f9341 0%, #4a7c2a 100%);
+    
+    /* Colors */
+    --primary-color: #5f9341;
+    --primary-light: rgba(95, 147, 65, 0.1);
+    --primary-gradient: linear-gradient(135deg, #5f9341 0%, #4a7c2a 100%);
+    --danger-color: #ff6b6b;
+    --danger-light: rgba(255, 107, 107, 0.1);
+    --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+    --warning-color: #ffa726;
+    --success-color: #66bb6a;
+    
+    /* Text Colors */
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
+    --text-muted: #999999;
+    
+    /* Border Colors */
+    --border-color: #f0f0f0;
+    --border-hover: #d0d0d0;
+    
+    /* Input Colors */
+    --input-bg: #fafafa;
+    --input-focus-bg: #ffffff;
+    
+    /* Lead Item Colors */
+    --lead-item-bg: #fafafa;
+    --lead-item-selected-bg: rgba(95, 147, 65, 0.05);
+    
+    /* Empty State Colors */
+    --empty-state-bg: #f8f9fa;
+    --empty-state-icon: #dddddd;
+    --empty-state-text: #666666;
+    
+    /* Modal Colors */
+    --modal-overlay: rgba(0, 0, 0, 0.5);
+    --toast-bg: #333333;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+    --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    --app-bg: #1e1e1e;
+    --card-bg: #252525;
+    --header-bg: #4a7c2a;
+    --header-gradient: linear-gradient(135deg, #4a7c2a 0%, #5f9341 100%);
+    
+    /* Colors remain the same for consistency */
+    --primary-color: #5f9341;
+    --primary-light: rgba(95, 147, 65, 0.15);
+    --danger-light: rgba(255, 107, 107, 0.15);
+    
+    /* Text Colors */
+    --text-primary: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --text-muted: #888888;
+    
+    /* Border Colors */
+    --border-color: #333333;
+    --border-hover: #444444;
+    
+    /* Input Colors */
+    --input-bg: #2a2a2a;
+    --input-focus-bg: #333333;
+    
+    /* Lead Item Colors */
+    --lead-item-bg: #2a2a2a;
+    --lead-item-selected-bg: rgba(95, 147, 65, 0.1);
+    
+    /* Empty State Colors */
+    --empty-state-bg: #2a2a2a;
+    --empty-state-icon: #555555;
+    --empty-state-text: #888888;
+    
+    /* Modal Colors */
+    --modal-overlay: rgba(0, 0, 0, 0.7);
+    --toast-bg: #444444;
+}
+
+/* Theme Transition */
+* {
+    transition: background-color var(--transition-normal), 
+                border-color var(--transition-normal), 
+                color var(--transition-normal);
+}
